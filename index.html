@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://unpkg.com/htmx.org"></script>
+    <script src="https://unpkg.com/htmx.org/dist/ext/client-side-templates.js"></script>
+    <script src="https://unpkg.com/mustache@latest"></script>
+</head>
+
+<body>
+    <div class="container" hx-ext="client-side-templates">
+        <div hx-get="https://api.re-shine.jp/users/marko" hx-trigger="load" hx-swap="innerHTML"
+            hx-target="#content" mustache-template="foo">
+            <div id="content">Loading...</div>
+            <template id="foo">
+                <img class="profile-image" src="{{image.medium.url}}" alt="Profile Image">
+                <h2>{{display_name}}</h2>
+                <p>自己紹介: {{description}}</p>
+                <p>年より会員: {{created_at | date}}</p>
+                <p>希望単価: {{min_desired_daily_price}}円 - {{max_desired_daily_price}}円</p>
+                <p>GitHub: <a href="{{github_account}}" target="_blank">{{github_account}}</a></p>
+                <h2>スキル</h2>
+                <ul>
+                    {{#skills}}
+                    <li>{{name}} ({{experience}} 年間)</li>
+                    {{/skills}}
+                </ul>
+                <h2>職種</h2>
+                <ul>
+                    {{#job_classes}}
+                    <li>{{name}} (年間: {{experience_year.name}})</li>
+                    {{/job_classes}}
+                </ul>
+            </template>
+        </div>
+    </div>
+</body>
+
+</html>
